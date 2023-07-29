@@ -1,0 +1,922 @@
+\documentclass{article}
+\textwidth=6.5in
+
+\textheight=8.5in
+\voffset=-30pt
+\oddsidemargin=-0.5in
+\evensidemargin=+0.9in
+\setlength{\parskip}{8pt}
+\setlength{\parindent}{0pt}
+
+
+\usepackage{graphicx} %package to manage images
+\graphicspath{ {./images/} }
+\usepackage{mwe}
+\usepackage{wrapfig}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{quiver}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{parskip}
+\usepackage{MnSymbol}
+\usepackage{tabularx}
+\usepackage{color}   %May be necessary if you want to color links
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true, %set true if you want colored links
+    linktoc=all,     %set to all if you want both sections and subsections linked
+    linkcolor=blue,  %choose some color if you want links to stand out
+}
+\DeclareMathOperator{\spec}{sp}
+\DeclareMathOperator{\modl}{mod}
+\DeclareMathOperator{\aut}{Aut}
+\DeclareMathOperator{\chars}{char}
+\DeclareMathOperator{\Gal}{Gal}
+
+\title{\vspace{-6cm}}
+\author{}
+\date{}
+
+\begin{document}
+\tableofcontents
+% General things
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\thm}[1]{\textbf{(Th. #1)}} % Theorem
+\newcommand{\lm}[1]{\textbf{(Lm. #1)}} % Theorem
+\newcommand{\df}[1]{\textbf{(Df. #1)}} % Theorem
+\newcommand{\cor}[1]{\textbf{(Cor. #1)}} % Theorem
+
+% Probability things
+\newcommand{\E}[1]{{\mathbb{E}}[#1]} % 2 specifies the number of arguments; 1 species the value that the first argument takes by default.
+\newcommand{\EF}[2][\mathcal{F}]{{\mathbb{E}}[#2|#1]} % Conditional expectation
+\newcommand{\F}[1][]{\mathcal{F}_{#1}} % Filtration
+\newcommand{\prob}[1]{\mathbb{P}[#1]} % Probability
+\newcommand{\ra}{\rightarrow} % right arrow
+\newcommand{\pf}{(\textbf{Pf.})}
+\newcommand{\Rf}{\mathcal{R}}
+\newcommand{\Cc}{\mathbb{C}}
+\newcommand{\ccomp}{\mathcal{C}_C(G)}
+\newcommand{\innprod}[2]{\langle #1 | #2 \rangle}
+\newcommand{\dhat}[1]{\hat{\hat{#1}}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+
+ 
+\maketitle
+
+\section{Topological Groups}
+
+\section{Some Representation Theory}
+\subsection{Banach Spaces and the Gelfand Transform (2.2)}
+
+$\df{1}$ A $\textbf{Banach space A}$ is a complete, normed vector space over some field $F$.
+
+$\df{2}$ Given Banach spaces $A,B$, we define $Hom(A,B)$ to be the bounded linear transformations $A \ra B$. We endow this space with the operator norm $||T|| = \inf \{c : ||T(a)|| \leq c ||a|| \forall a \in A \}$. This makes the space a Banach space.
+
+$\df{3}$ A Banach space is a \textbf{Banach algebra} if the norm is sub-multiplicative, i.e. $||ab|| \leq ||a|| ||b||$. We note that, to be a Banach algebra, we must have a Banach space that has the operations of addition, multiplication and scalar multiplication (over some field) defined. Thus, a Banach algebra is a ring and a module.
+
+\textcolor{blue}{Some remarks}
+\textcolor{blue}{\begin{enumerate}
+    \item Denote $A^* = \{\text{units of A}\}$.
+\end{enumerate}}
+
+$\df{4}$ For a complex Banach algebra A, we have $\spec(a) = \{ \lambda \in \C : \lambda 1_A - a  \notin A^* \}$, $r(A) = sup\{|\lambda| : \lambda \in \spec(a) \}$ - spectrum and spectral radius of $a$.
+
+\subsubsection{Quotient Algebras}
+
+\subsubsection{Gelfand Transform}
+(A1) Consider the set $A^* = \{ \text{cts. linear functions $A \ra \C$} \}$, and the set $\hat{A} = \{ \text{non-trivial group homomorvarphisms $A \ra \C$}\}$, i.e. characters. A theorem shows that $\hat{A} \subset A^*$. 
+
+(A2) Now, we endow $A^*$ with the weak-star topology, $w^*$, which is coarsest topology making all the following evaluation maps continuous...
+
+$$\rho_a:\begin{cases}
+A^* \mapsto \C \\
+\psi \mapsto \psi(a)
+\end{cases}$$
+
+(A3) Thereafter, we endow $\hat{A}$ with the subspace topology w.r.t. this topology - this is the \textbf{Gelfand topology} $\mathcal{G}_A$.
+
+(A4) Now, $\forall a \in A$, let 
+
+$$\hat{a}:\begin{cases}
+\hat{A} \mapsto \C \\
+\psi \mapsto \psi(a)
+\end{cases}$$
+
+By construction, these maps are continuous w.r.t Gelfand topology.
+
+(A5) Then, letting $\mathcal{C}(\hat{A}) = \{ f: \hat{A} \ra \C, f \in \mathcal{C}(\mathcal{G}_A) \}$, we endow $\mathcal{C}(\hat{A})$ with the $\sup$ norm. 
+
+(A6) Finally, we define the \textbf{Gelfand transform}...
+
+$$\Gamma:\begin{cases}
+A \mapsto \mathcal{C}(\hat{A}) \\
+a \mapsto \hat{a}
+\end{cases}$$
+
+
+\section{Duality for Locally Compact Abelian Groups}
+Our setting for this chapter will be a locally compact, abelian group $G$, with some Haar measure $\mu$. 
+
+Letting $\hat{G} = \{ \text{characters of $G$, i.e. continuous homomorvarphisms $G \ra S^1$} \} $, we will demonstrate that $\hat{G}$ is also locally compact and abelian. To show this, we will construct two equivalent topologies on $\hat{G}$. Thereafter, we will demonstrate the Pontryagin duality theorem, demonstrating that $G$ and $\hat{G}$ are algebraically and topologically mutually dual. What this means is that $\hat{\hat{G}} = G$.
+
+\subsection{The Pontryagin Dual}
+
+We first develop the compact-open topology on $\hat{G}$, called the Pontryagin dual.
+
+$\df{1}$ (compact-open topology) For $K \subset G$ compact, $V \in \S^1$ open, let $W(K,V) = \{ \chi \in \hat{G}: \chi(K) \subset V\}$ define subsets of $\hat{G}$. 
+
+\textbf{Analysis of Defn.}
+
+\fbox{\begin{minipage}{50em}
+
+1. These subsets constitute a neighbourhood base for the trivial character, i.e. \textcolor{red}{for every neighbourhood $\hat{O}$ of $\hat{e} \in \hat{G}, \exists W(K,V)$ s.t. $\hat{e} \in W(K,V) \subset \hat{O}$.}. What exactly do we check here?
+
+\vskip 0.25 cm
+2. \textcolor{blue}{Do these subsets form a base?} Well, if $W(K_1,V_1)$ and $W(K_2,V_2)$ have non-trivial intersection (say, contains at least one element $\chi$ in common), then that means that $\chi(K_1) \subset V_1 \text{ and } \chi(K_2) \subset V_2$, i.e. $\chi(K_1) \cap \chi(K_2) \subset V_1 \cap V_2.$ But also, $\chi(K_1 \cap K_2) \subset V_1 \cap V_2$, and so $W(K_1 \cap K_2, V_1 \cap V_2)$ is contained in intersection of $W(K_1,V_1)$ and $W(K_2,V_2)$.
+
+\vskip 0.25 cm
+
+3. Therefore, they form a basis of what is the \textbf{compact-open} topology on $\hat{G}$. Particularly, the basis is $\{\chi \cdot W(K,V): \chi \in \hat{G}, K \subset G, V \subset S^1\}$. (since $G$ isn't compact, it isn't obvious how $W(K,V) = \hat{G}$, so that such subsets only yield base at trivial character, and we multiply to get base overall).
+
+\end{minipage}}
+
+A lemma then leads to the following proposition about properties of the compact-open topology on $\hat{G}$.
+
+$\lm{3.1}$ For $\varepsilon \in (0,1]$, let $N(\varepsilon) = \varphi((-\varepsilon/3,\varepsilon/3))$, where $\varphi: \begin{cases}
+    \R \ra S^1 \\
+    x \mapsto e^{2\pi ix}
+\end{cases} $, yield symmetric open neighbourhoods around the identity of $S^1$. \textcolor{blue}{Lemma...}
+
+$\thm{3.2}$
+For abelian group $G$, we have:
+\begin{enumerate}
+    \item $\chi:G \ra \S^1$ is continuous iff $\chi^{-1}(N(1))$ is neighbourhood of identity in $G$
+    \item The family $\{W(K,N(1)\}_{K \subset G, K \text{ comp.}} $ forms neighborhood base of trivial character for compact open topology on $\hat{G}$
+    \item $G$ discrete $\implies$ $\hat{G}$ compact.
+    \item $G$ compact $\implies \hat{G}$ discrete. (i.e. every point is isolated, i.e. identity is isolated)
+    \item $G$ loc. comp $\implies$ $\hat{G}$ loc. comp.
+\end{enumerate}
+
+\subsection{Functions of Positive Type}
+In this section, we describe functions of positive type and their important properties. They are important constructions for sections $3.3$ and $3.4$.
+
+$\df{3.2.1}$ For $G$ locally compact group with Haar measure $ds$, a function $\varphi:G \ra \Cc \in L^{\infty}(G)$ is \textbf{positive-type} if for all $f \in \ccomp$, we have (for $L^2-$inner product)...
+
+$$\langle\varphi * f|f\rangle = \int \int \varphi(s^{-1}t)f(s)ds \bar{f}(t) dt \geq 0$$
+
+Recall that, for all $ 1 \leq p \leq \infty$, $\ccomp \subset L^p(G)$, and it is in fact a dense subset.
+
+\vskip 1 cm
+
+\textbf{Analysis of Defn.}
+
+\fbox{\begin{minipage}{50em}
+
+1) By \textcolor{green}{Exercise 1}, the integrand is $G \times G$ Haar-measurable. Thus, by Fubini's theorem, this integral is defined \footnote{\textcolor{red}{Stuff about $\sigma-$compact spaces?}}.
+\vskip 0.25cm
+
+2) To see integral is bounded: note that $\varphi \in L^{\infty}, \text{supp}(f) \subset K \subset G$, for $K$ compact (and thus, with finite Haar measure) $\implies \langle\varphi * f|f\rangle \leq ||\varphi||_{\infty} (\sup f \cdot \mu(K))^2 \langle \infty$. 
+
+\end{minipage}}
+
+Now, to establish fundamental properties of functions of positive type, we make two connections: with Hilbert spaces and unitary representations.
+
+$\thm{3.3}$ For $G$ loc. compact, $\varphi$ function of $(+)-$type, the mapping $s \mapsto L_s$ induces a unitary representation of $G$ on the Hilbert space $V_{\varphi}$, i.e.,
+
+$$\begin{cases}
+G \ra \text{End}(V_{\varphi}) \\
+s \ra L_s
+
+\end{cases}$$
+
+is such that $\forall s, L_s$ is unitary, i.e. $\innprod{L_sf}{L_sf}_{\varphi} = \innprod{f}{f}_{\varphi}$, and the map $(s,f) \ra L_sf$ is continuous wrt. product topology.
+
+$\pf$
+
+(A1) For $\varphi (+)-$type, we may define positive sesquilinear \footnote{A sesquilinear form is a bilinear form such that $\langle a f_1|bf_2\rangle=\bar{a}b\langle f_1|f_2\rangle$} form on $\ccomp$ by:
+
+$$\langle f_1|f_2\rangle_{\varphi} = \int \int \varphi(s^{-1}t)f_1(s) ds \bar{f_2}(t)dt$$
+
+By above analysis, this integral is defined and finite for all $f \in \ccomp(G)$. 
+
+(A2) Consider $W_{\varphi}=\{f \in \ccomp: \langle f|f\rangle_{\varphi}=0\}$, the single-variable kernel of this form. By $CS-$inequality, $W_{\varphi}$ is subspace of $\ccomp$ (since if $f,g \in W_{\varphi}, \langle f+g|f+g\rangle_{\varphi} = \langle f|f\rangle + \langle g|g\rangle + \langle f|g\rangle + \langle g|f\rangle$, and $\langle f|g\rangle^2 \leq \langle f|f\rangle \langle g|g\rangle = 0$). 
+
+Therefore, we may consider the quotient space $\ccomp/W_{\varphi}$, and let $V_{\varphi}$ be the completion of it. On this space, the form $<f_1|f_2>_{\varphi}$ extends by continuity: it is positive definite and Hermitian. Thus, $V_{\varphi}$ is a Hilbert space.
+
+\vskip 0.25 cm
+
+(A3) Now, recall that for $s \in G, L_s(f)(t) = f(s^{-1}t)$. Therefore, as $f \in \ccomp \implies L_s(f) \in \ccomp$, we have the map $\begin{cases} 
+G \ra \text{End}(\ccomp) \\
+s \mapsto L_s \end{cases}$, which is an abstract representation of $G$.
+
+(A4) Moreover, note that $\innprod{L_sf}{L_sf}_{\varphi} = \innprod{f}{f}_{\varphi}$ by change of variables. Thus, since $L_s$ is a unitary operator on $V_{\varphi}$, we have $s \mapsto L_s$ as an abstract unitary representation of $G$ on $V_{\varphi}$. 
+
+(A5) Furthermore, $s \mapsto L_s$ defines a topological representation \textcolor{red}{(not shown because not so important, I think?)}
+
+\subsubsection{Definition of Convolution and Representation of Bounded Functions of pos. type}
+
+$\df{3.2.2}$ For $f,g$ $\Cc-$valued Borel functions on loc. compact $G$, let their \textbf{convolution, $f * g$}, be $(f \star g)(t) = \int_G f(s^{-1}t)g(s) ds =_{s := ts} \int_G f(s^{-1})g(ts)ds$ (assuming it exists).
+
+Now, in the special case that $f \in \ccomp, \varphi (+)-$type, we have that $f * \varphi$ exists, and also whenever $t_a \ra t$ in $G$, we have...
+
+$$(f*\varphi)(t) - (f*\varphi)(t_a) = \int \varphi(s^{-1})(f(ts) - f(t_as)  ds \ra 0$$
+
+...by bounded convergence theorem, establishing continuity of $f * \varphi$. This brings us to our representation theorem.
+
+$\thm{3.4 - Representation Theorem}$ Let $\varphi$ be $(+)-$type on $G$. Then, there exists $f_{\varphi} \in V_{\varphi}$ such that, for a.e. $s \in G$, $\varphi(s) = \innprod{f_{\varphi}}{L_sf_{\varphi}}_{\varphi}$, i.e. $\varphi-$evaluation corresponds to some inner-product evaluation.
+
+$\cor{3.5 - Properties of (+)-types}$ Given $\varphi$ $ (+)-$type, $\varphi$ equals a continuous $(+)-$type a.e. If $\varphi$ is continuous to begin with, then:
+
+\begin{enumerate}
+    \item $\varphi(e) \geq 0$
+    \item $\varphi(e) = \sup_{s \in G} |\varphi(s)|$.
+    \item $\varphi(s^{-1}) = \bar{\varphi}(s)$
+\end{enumerate}
+
+$\pf$ (0) By theorem $(3.4)$, $\phi(\cdot) = \innprod{f}{L_{\cdot}f}$ a.e., and the inner product is continuous by the polarization identity \textcolor{red}{How to apply that here, though? Appn. of polarization identity is easy when dealing with functions w/ domain $\R$, but not as easy here?}
+
+(1) If continuous, then exactly equals its representation everywhere. Then, $\varphi(e) = \innprod{f}{L_ef} = \innprod{f}{f} \geq 0$.
+
+(2) Cauchy-Schwarz and unitary nature of $L_s$: 
+
+$\varphi(s) = \innprod{f}{L_sf}^2 \leq \innprod{f}{f} \innprod{L_sf}{L_sf} = \innprod{f}{f}^2 = \varphi(e)$, as desired.
+
+(3) is also simple enough.
+
+\subsubsection{Elementary Functions}
+
+\textcolor{red}{Not so important right now, so skipped for now}.
+
+\subsection{The Fourier Inversion Formula}
+In this section, we seek to establish Pontryagin duality, i.e. $G = \dhat{G}$. To do this, we will first define the Fourier transform of a function, and thereafter derive the Fourier inversion formula. 
+
+Throughout, let $G$ denote a loc. compact abelian group, with bi-invariant Haar measure $ds$ and continuous complex character group $\hat{G}$.
+
+$\df{3.3.1 - Fourier Transform}$ Let $f \in L^1(G)$. Then, let $\hat{f}:\hat{G} \ra \Cc$ be the \textbf{Fourier transform} of $f$, given by $\hat{f}(\chi) = \int_G f(y)\overline{\chi}(y) ds(y)$.
+
+\textbf{Examples}: For $G = \R$, we have $\hat{G} = \{ \text{continuous homomorphisms $\R \ra S^1$} \} = \{ \text{complex exponentials } t \mapsto e^{i ts}: s \in \R \} \cong \R$, so that for $f \in L^1(\R), \hat{f}(\chi) = \hat{f}(s) = \int f(y)e^{-ity}dy$, which is the regular Fourier transform.
+
+Similarly, think about $G = \mathbb{Z}/n\mathbb{Z}, [0,1], S^1$...
+
+\textbf{Remark}: From the above definition, since $||\chi(y)|| = 1$, we have that $|\hat{f}| \leq ||f||_{L^1}.$ So that whenever $f \in L^1$, the Fourier transform is bounded.
+
+Now, let $V(G) = \{ \text{complex span of continuous fxns. of } (+)-\text{type} \}$, and let $V^1(G) = V(G) \cap L^1(G)$.  
+
+\textbf{Step 1.} Prove existence of the dual measure, $d\chi$ on $\hat{G}$, wrt. which we will prove that $f(y) = \int_G \hat{f}\chi(y)d\chi$ for $f \in V^1(G)$.
+
+To do this, we will:
+
+(1) Prove properties of convolution (show it is associative and commutative on $L^1(G)$, and show it is sub-multiplicative).
+
+(2) Conclude $L^1(G)$ is Banach algebra wrt. convolution. 
+
+(3) Show that characters of $L^1(G)$ correspond bijectively to those of $G$, with bijection being $\chi(\cdot) \ra \int \cdot(y) \bar{\chi}(y) dy$ \textbf{(Th 3.11)} \textcolor{blue}{$\widehat{L^1(G)} \cong \hat{G} $}
+
+\subsubsection{Ring of Fourier Transforms and the Transform Topology}
+
+Consider the space of Fourier transforms, $\hat{A} = \{\hat{f}: f \in L^1(G) \}$. It defines a topology on $\hat{G}$, the weakest topology such that all $\hat{f} \in \hat{A}$ are continuous. Call this the transform topology.
+
+Now, since $(f * g)\hat{} = \hat{f} \hat{g}$, $\hat{A}$ forms ring of continuous functions on $\hat{G}$ wrt. transform topology. 
+
+Now, we consider the coincidence of Gelfand theory and Fourier transform. Here, \textbf{(Th 3.11)} comes in handy to tell us that characters of $L^1(G)$ correspond bijectively to those of $G$.
+
+(A1) As $L^1(G)$ is a Banach algebra, let us run through Gelfand theory with $A = L^1(G)$. Now, by \textbf{(Th 3.11)}, $\widehat{L^1(G)} = \{v_{\chi}: L^1(G) \ra S^1, v_{\chi}(f) = \int f(y) \bar{\chi(y)}dy: \chi \in \hat{G} \} \cong \hat{G}$.
+
+(A2) Also giving Gelfand topology to $\widehat{L^1(G)}$ makes all evaluation maps $v_{\chi} \cong \chi \mapsto v_{\chi}(f)$ continuous, for $f \in L^1(G)$. But this is exactly saying that all Fourier transforms $\hat{f}:\begin{cases}
+    \widehat{L^1(G)} \ra \Cc \\
+    v_{\chi} \mapsto v_{\chi}(f)
+\end{cases}$ are continuous wrt. Gelfand topology on $L^1(G)$, when seen as a function on $\widehat{L^1(G)} \cong \hat{G}$.
+
+(A3) And so, if we consider the Gelfand transform $L^1(G) \ra \mathcal{C}(\widehat{L^1(G)})$, it is exactly $\Gamma(f) = \hat{f}$. That is, the Gelfand transform coincides with the FT - i.e. $\Gamma(f)(v_{\chi}) =_{\text{GT}} {v}_\chi(f)=_{\text{FT}} \hat{f}(\chi) $. \textcolor{blue}{That is, Fourier transform is special case of Gelfand transform.}
+
+This is useful because it leads to the following theorems:
+
+\begin{enumerate}
+    \item $\thm{3.12} \hat{A}$ is a seperating, self-adjoint, dense sub-algebra of $\mathcal{C}_{0}(\hat{G})$, for $\hat{G}$ equipped with transform topology.
+    
+    $\pf$ Uses weak topology ideas to show it is subset. Uses Gelfand theory, and Stone-Weierstrass/\textcolor{green}{Exercise 9} to show rest/density.
+    \item $\thm{3.13}$ The compact-open topology and the transform topology on $\hat{G}$ are identical.
+
+    $\pf$ Uses some applications of Gelfand theory, \textcolor{green}{Exercise 8 + 9} (in lemma)
+\end{enumerate}
+
+
+\subsubsection{The Fourier Transform of a Character Measure}
+To define our Fourier Inversion formula, we seek to construct a dual measure on $\hat{G}$. We start with this idea here...
+
+$\df{3.3.2 - FT of measure}$ Suppose $\hat{\mu}$ is a Radon measure on $\hat{G}$ such that it gives finite mass to $\hat{G}$. Then, for $y \in G$, let $$T_{\hat{\mu}}(y) = \int \chi(y)d\hat{\mu}(\chi)$$
+
+i.e. we integrate $\text{ev}_y:\hat{G} \ra \Cc, \text{ev}_y(\chi) = \chi(y)$ over $\hat{G}$. We call this the \textbf{Fourier transform of the measure $\hat{\mu}$}.
+
+\textbf{Rm. } \begin{enumerate}
+    \item Since $|\chi(y)| \leq 1$, $|T_{\mu}(y)| \leq \hat{\mu}(\hat{G})$. Also, it is a continuous transform $\textcolor{red}{why?}$
+    \item Also, $\int \overline{\hat{f}(\chi)} d\hat{\mu}(\chi) = \int \overline{\int f(y) \overline{\chi}(y)} dy d\hat{\mu}(\chi) =_{\text{Fubini}} \int \int \chi(y)d\hat{\mu}(\chi) \overline{f(y)} dy = \int \overline{f(y)} T_{\hat{\mu}}(y) dy$
+\end{enumerate}
+
+$\thm{3-16}$ \textcolor{blue}{We now wish to show that $\hat{\mu}$ is uniquely determined by its Fourier transform} - that is, if $T_{\hat{\mu}} = T_{\hat{\eta}}$, then $\hat{\mu} = \hat{\eta}$. To show this, it suffices to show $T_{\hat{\mu}} = 0 \implies \hat{\mu} = 0$: then, $T_{\hat{\mu}} - T_{\hat{\eta}} = T_{T_{\hat{\mu - \eta}}} = 0 \implies \hat{\mu - \eta} = \hat{\mu} - \hat{\eta }=  0 \implies \hat{\mu} = \hat{\eta}$.
+
+$\pf$ Now, $T_{\hat{\mu}} = 0 \implies \int \overline{\hat{f}(\chi)} d\hat{\mu}(\chi) = 0$. But by density of $\hat{f}$'s in $\mathcal{C}_0{(\hat{G})}$, this implies that for all $g \in \mathcal{C}_0{(\hat{G})}$, $\int g(\chi) d\hat{\mu}(\chi) = 0$. The result then follows by elementary correspondence between Radon measures and integrals.
+
+This leads to the important \textcolor{blue}{Bochner's theorem - a connection between measures on $\hat{G}$ and functions of (+)-type}.
+
+$\thm{3-16 - Bochner}$ The functions of $\mathcal{P}(G)$, i.e. continuous functions of $(+)-$type on $G$ w/ $||\cdot||_{\infty} < 1$,  are FTs of Radon measures on $\hat{G}$ with total mass $\leq 1$.
+
+$\pf$ \textcolor{green}{Exercise 10, 11, 6} The idea is that (i) it is clearly true for Radon measures on $\hat{G}$ with mass 1 concentrated at some $\chi$; then, for general finite Radon measure, it is weak limit of linear combo. of point measures. Thus, FT of former is weak limit of FT of linear combo. (and this is linear combo. of characters), so that $\mathcal{P}(G)$ contains FT of general character measure, as desired. Therefore, FTs $\subset \mathcal{P}(G)$.
+
+To see $\mathcal{P}(G) \subset FT$, we use Ex. 6.
+
+\noindent\rule{17cm}{0.4pt}
+
+Now, recall that $V$ denotes complex span of cts. functions of $(+)-$type. Each of these functions are bounded, achieving their max. at the identity of $G$. Now, by Bochner, each such function $f$ (normalized by their $||\cdot||_{\infty}$-norm) determines a measure $\hat{\mu}_f$ on $\hat{G}, \hat{\mu}(\hat(G)) < \infty$, such that $f$ is FT of $\hat{\mu}_f$ - i.e., $f(y) = \int \chi(y)d\hat{\mu}_f(\chi)$
+
+This association has the following reciprocity law.
+
+$\lm{3-17}$ For $f,g \in V^1(G)$, we have equality of measures: $\hat{g}(\chi)d\hat{\mu}_f(\chi) = \hat{f}(\chi)d\hat{\mu}_g(\chi)$.
+
+$\pf$ Since character measures are determined by their $FT$, it suffices to show $FT$ of these measures is identical. We show this here by showing character FT is actually a convolution, which is commutative.
+
+\noindent\rule{17cm}{0.4pt}
+
+Following the above, let $\mathcal{F} = \{ \text{cts., bdd. } \phi: \hat{G} \ra \Cc \text{, s.t. } \exists \hat{v}_{\phi} \text{ complex measure of finite total mass, s.t. }\forall f \in V^1(G), \phi(\chi)d\hat{\mu}_f{\chi} = f(\chi)d\hat{v}_{\phi}{\chi} \}$, i.e. all cts. bdd. functions satisfying above property. Clearly, $\hat{A} \subset \mathcal{F}$.
+
+We now show some key properties of $\mathcal{F}$, as the final step towards the Fourier Inversion formula.
+
+$\lm{3-18}$ $\mathcal{F}$ has the following properties:
+\begin{enumerate}
+    \item $\varphi \in \mathcal{F} \implies \hat{v}_{\phi}$ is unique.
+    \item If $\varphi = FT[f]$, $f \in L^1(G)$, then $\hat{v}_{\phi} = \hat{\mu}_{f}$.
+    \item $\varphi \in \mathcal{F} > 0 \implies \hat{v}_{\phi} > 0$.
+
+$\pf$ (2) follows easily from (1) along with prior lemma. (3) follows from (1) by easy modification. To see (1), we use a limiting argument relying on \textcolor{green}{Exercise 12}.
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Pontryagin Duality}
+
+\section{Structure of Arithmetic Fields}
+\subsection{The Module of an Automorphism}
+Our setting is a locally compact, additive group $G$ with Haar measure $\mu$. For such a group, consider an automorphism $\alpha:G \ra G$ (i.e. bijection). Note that $\mu \cdot \alpha$ defines a Haar measure on ("automorphed") G - by uniqueness of the Haar measure up to scaling, i.e. $\mu \cdot \alpha(A) = c \mu(A)$ for some $c \in \mathbb{R}$, and Borel sets $A$. 
+
+\[\begin{tikzcd}
+	G & G \\
+	& {\mathbb{R}_{\geq 0}}
+	\arrow["{\alpha(\cdot)}", from=1-1, to=1-2]
+	\arrow["\mu", from=1-2, to=2-2]
+	\arrow["{\mu(\alpha(\cdot))}"', from=1-1, to=2-2]
+\end{tikzcd}\]
+
+$\df{4.1.1}$ For $\alpha:G \ra G$ automorphism, denote by $\modl_G(\alpha)$ the constant such that $\mu(\alpha A) = \modl_G(\alpha) \cdot\mu(A)$ for all Borel sets $A \subset G$, which we call the \textbf{module} of the automorphism.
+
+\textbf{Elementary properties and remarks on the module}
+
+\begin{enumerate}
+    \item $\modl$ is multiplicative, i.e. $\modl_G(\alpha \beta) = \modl_G(\alpha)\modl_G(\beta)$. Hence, $\modl(a^{-1}) = \modl(a)^{-1}$.
+    \item If $k$ is a locally compact field, and we have a $k-$vector space $V$ (i.e. $k$ is collection of scalars, $V$ is group under addition), then note:
+
+    \begin{enumerate}
+        \item For all $\alpha \in k^*$, $\alpha$ induces automorphism on $V$ by left multiplication. These automorphisms, of course, exist by the definition of a vector space, however - which yields ring homomorphism $k \ra \aut{(V)}$ - since a $k-$vector space is, in particular, a module over a field $k$.
+        \item Therefore, we let $\modl_{V}(\alpha)$ to be the module of this automorphism. \textcolor{red}{What is Haar measure on a general vector space exactly? Some sort of product measure? Perhaps, for finite dimensional vector spaces, it is $\mu^{dim(V)}$?)}
+    \end{enumerate}
+    \item We distinguish between $\modl_V(a)$ and $\modl_k(a)$, for $a \in k$. (In particular, note that the latter represents the module of $a$ acting on $k$).
+    \item Let $\modl_V(0)$ = 0 be the extension of the $\modl$ function.
+\end{enumerate}
+
+Now, we prove some more important properties of this function.
+
+\textbf{Non-elementary properties of the module}
+\begin{enumerate}
+    \item For a locally compact field $k$, $\modl_k:k \ra \R_{+}$ is continuous.
+    \item For $k$-nondiscrete top. field, $\modl_k$ is unbounded. Moreover, $k$ is not compact as a result. This follows from elementary pty. (1) + fact that for every open nbhd. of the identity $U$, for all $\epsilon > 0$, $\exists x \in U$ such that $\modl_k(x) < \epsilon$. That is, $\modl_k$ takes on arbitrary large and arbitrarily small values for nondiscrete, locally compact top. fields.
+    \item $B_m = \{x \in k: \modl_k(x) \leq m \}$ are compact + constitute local base at $0 \in k$. That is, $\modl$ yields a topology.
+\end{enumerate}
+
+Following these properties, we study the properties of $\modl$ in relation to the topology of the spaces it acts on.
+
+\begin{enumerate}
+    \item It induces open homomorphism $k^* \ra \Gamma$, a closed subgroup of $\R_+^x$. $\Gamma$ is discrete if $k$ is ultrametric (see below).
+    
+    \item For nondiscrete, LC fields, it always satisfies a weaken ultrametric inequality - for some $A \geq 1$, $\modl_k(a+b) \leq A\max\{\modl_k(a),\modl_k(b)\}$. Whenever it satisfies this for $A = 1$, we have that $\modl_k(k^*)$ is discrete.
+\end{enumerate}
+
+This leads to a final theorem about $\modl$: if it is bounded on the prime ring (i.e. ring generated by $1 \in k$), then it $\modl_k \leq 1$ for all $x \in k$. Also, it satisfies the ultrametric inequality $\thm{4.11}$
+
+Thus, our key takeways here are that $\modl_k \leq 1$ if and only if $k$ is ultrametric, by $\thm(4.11)$; that, in this case, $\Gamma$ is discrete; and that $\modl_k$ yields a topology on $k$.
+
+\subsection{Review: Characteristic, p-adic numbers}
+Before moving on, we should recall some notions, specifically (i) characteristic of a field, and (ii) p-adic numbers.
+
+\subsubsection*{Characteristic}
+$\df{4.2.1}$ Given a (unital) ring $k, \chars(k)$ is the smallest $n \in \mathbb{N}$ such that $n \cdot 1 = 0$. If such $n$ does not exist, we say $\chars(k) = 0$. Let's see some examples.
+
+\begin{enumerate}
+    \item For $k = \mathbb{Q}, \mathbb{R}, \mathbb{Z}, \mathbb{Q}_p$, their characteristic is 0. For $k = \mathbb{Z}/n\mathbb{Z}$, its characteristic is $n$. 
+    \item Finite fields have prime characteristic - for example, $\mathbb{F}_p$ has characteristic $p$.
+\end{enumerate}
+
+Characteristic is a useful notion because of the following intuition. Consider the unique ring morphism $\phi: \mathbb{Z} \ra k$, unique because it sends $1 \mapsto 1$. Now, if $k$ is a ring of finite characteristic, say $m$, then $\ker(\phi) = m\mathbb{Z}$ precisely. By the isomorphism theorem, we have that $k$ contains a subring that is isomorphic to $\mathbb{Z}/m\mathbb{Z}$. The existence of this kernel, or of such a subring, are equivalent characterisations. Therefore, characteristic encodes structural features about a ring.
+
+\subsubsection*{p-adic numbers}
+Recall the constructional of the real numbers. We considered the absolute value $|\cdot|$ function, and devised $\mathbb{R}$ as the completion of $\mathbb{Q}$ under this absolute value.
+
+However, we can do the same with other absolute values. Namely...
+
+$\df{4.2.1}$ For prime $p$, we define the \textbf{p-adic valuation} as the function $v_p: \mathbb{Z} \ra \mathbb{N}$ such that such that $n = p^{v_p(n)}m$, where $m \perp p$. That is, \textbf{higher p-divisibly iff higher p-adic valuation}.
+
+We extend this to the rational numbers $\frac{a}{b}$ by letting $v_p(a/b) = v_p(a)-v_p(b)$.
+
+$\df{4.2.2}$ Let the \textbf{p-adic norm} be $|x|_p = p^{-v_p(x)}$, for rational $x$.
+
+$\thm{4.2.3}$ The p-adic norm satisfies certain properties:
+\begin{enumerate}
+    \item $|xy|_p = |x|_p|y|_p$, i.e. multiplicative
+    \item $|x+y|_p \leq \max\{ |x|_p, |y|_p\}$, i.e. ultrametric (or non-archimedean).
+\end{enumerate}
+
+Let us call $Q_{(p)} = (Q,|\cdot|_p)$ the \textbf{p-adic rationals}.  Then, we have some important ideas about this space, which we state for a generalized ultrametric space with non-archimedian absolute value:
+
+\begin{enumerate}
+    \item (Topological properties) It is an ultrametric space, and so has weird topological properties. For example, every open ball is closed, and vice versa; every point in a ball is its center; all triangles are isosceles; any two open/closed balls are either disjoint or cointained in each other.
+    \item (Algebraic properties) Let $\overline{\mathcal{B}}(0,1) = \{x : |x| \leq 1 \}= O$, $\mathcal{B}(0,1) = B$. Then, $O$ is a subring of $k$, $B$ is ideal of $O$ (in fact, it is maximal) whose complement contains units only (this makes it unique maximal ideal), so that $O$ is in fact what is called a $\textbf{local ring}$. Lastly, $O/B$ is a field.
+
+    In the special case of $\Q_{(p)}, O = \Z_{(p)} = \{ a/b \in \Q: p \nmid b\}$; $B = p\Z_{p} = \{ a/b \in \Q: p | a, p \nmid b \}$, and $O/B = \mathbb{F}_{p}$, the field with $p$ elements. 
+\end{enumerate}
+We can then think about the completion of this space, which is called $\Q_p$, the field of \textbf{p-adic numbers}. Its elements are formal power series in $p$ with finite left tail, i.e. $\sum_{n = n_0}^{\infty}a_n p^n$.
+
+We also define the $\textbf{p-adic integers}$ as the ball in $\Q_p$ of radius 1, centered at $0$.
+
+\subsubsection*{Universal property of $Z_p$} 
+It inspires our image of $Z_p$ as a totally disconnected, but indiscrete, space, and suggests the Haar measure on it.
+
+\textcolor{red}{Hensels lemma}
+
+\subsection{The Classification of Locally Compact Fields}
+
+Our aim in this section is the following theorem:
+
+$\thm{4.3.1}$ For $k$ non-discrete, LC field:
+
+\begin{enumerate}
+    \item If $\chars(k) = 0$, then $k$ is $\R, \C$ or a finite extension of $Q_p$.
+    \item if $\chars(k) = p > 0$, then $k$ is ultrametric and isomorphic to the field of formal power series in one variable over a finite field.
+\end{enumerate}
+
+A preliminary result...
+
+\subsubsection*{TVS over nondiscrete, LC field}
+For $V$ a topological vector space over nondiscrete, LC $k$, consider $W \subset V$ as a finite-dimensional subspace of dimension $n$. Consider the morphism $\phi: k^n \ra W$, such that $(a_j) \mapsto \sum a_j w_j$, where $(w_j)$ is a basis of $W$.
+
+$\phi$ is a sum of cts. functions $\implies$ $\phi$ is a continuous isomorphism of TVS.
+
+$\thm{4.3.2}$ We have the following properties:
+\begin{enumerate}
+    \item For $U$ open neighbourhood of $0 \in V$, $W \cap U \ne \{0\}$, i.e. it has non-trivial intersection.
+    \item $\phi$ is homeomorphism, i.e. is an open map in particular. Thus, $W$ is uniquely given a topology making it a TVS.
+    \item W is closed and locally compact
+    \item If $V$ is finite-dimensional, then (i) V is compact, and (ii) $\modl_V(x) = \modl_{k}(x)^{dim(V)}$.
+\end{enumerate}
+
+\subsubsection{Classification theorem - part (1)}
+Demonstrating part (1) is not so difficult after some preliminary analysis, which we demonstrate now. The idea is that, if $\chars(k) = 0$, we can completely characterize the module function. 
+
+Recall that, given a field $k$, $\modl$ can be defined over $\mathbb{N}$ by $\modl_k(n) = \modl_k(n\cdot 1_k)$.
+
+(A1) Assume that $\modl_{k} \leq 1$ (equiv., that $k$ is ultrametric). This is particularly true if $\chars(k) > 0$, since then $\modl_k$ is bounded on the prime ring of $1_k$ (since $1_k \cdot m = 0$ for finite $m$, thus for elements of the prime ring, which are finite sums and products of such terms, (i) the finite sum's module $\leq$ any one term's module, wherein the term is a product of terms whose module is bounded, and so the sums are bounded. But then, previous proposition implies boundedness by $1$.
+
+(A2) Therefore, we have that $\{m\cdot 1_k : m \in \N\} \subset B_1$. Now, $B_1$ is compact, so that this set has some limit point in $B_1$. By analysing this limit point, we demonstrate that $\modl_k(n) < 1$ for some $n \in \N$.
+
+(A3) Then, we can show that the smallest number such that $\modl_k(n) < 1$ is prime. We can also show that $n \perp p \implies \modl_k(n) = 1$, and $p$ is unique prime such that $\modl_k(p) < 1$.
+
+(A4) Now, if $\chars(k) > 0$, then $\modl_k(\chars(k)) = 0$, and $p = \chars(k)$ satisfies (A3) condition. 
+Alternatively, if $\chars(k) = 0$, then $\modl_k(p) = p^{-t}$ for some $t$ (since its module is non-zero). Then, we can express $\modl_k(n) = |n|_{p}^{-t}$, where $|n|_p$ is the p-adic valuation of $n$.
+
+All in all, if we let $|\cdot|_{\infty}$ denote the usual norm, our analysis allows us to characterize the $\modl_k$ function in the case that $\chars(k) = 0$, for either $\modl_k \leq 1$ or $\modl_k(m) = m^{\mu}$, we have that $\modl_k(n) = |n|_{\nu}^t$, where $\modl_k \leq 1 \implies \nu = p (A4)$, and $\modl_k(m) = m^{\mu} \implies \nu = \infty$.
+
+\textbf{Proof of main theorem, part (i)}
+\textcolor{red}{Verify understanding, then write...}
+
+\subsubsection{The local ring of an ultrametric field and its residue field}
+
+Now, we pursue the $\chars(k) = p$ case. For now, assume that $k$ is ultrametric. Therefore, $\Gamma = \modl_k(k^*)$ is discrete subset of $\R_+^{\times}$. 
+
+$\df{4.3.3}$ Let $A = \{ x \in k: \modl_k(x) \leq 1\}, A^* = \{ x \in k: \modl_k(x) = 1\} $ and $P= \{ x \in k: \modl_k(x) < 1\}$. 
+
+\textbf{Algebraic Features:} Note that $A$ is the unique maximal compact subring of $k$, and $A^*$ is the group of units in $A$. 
+
+In turn, $P \subset A$ is unique maximal ideal of $A$, of the form $P=\pi A$. Hence, $A$ is a discrete valuation ring (i.e. a PID having unique prime ideal), and also a local ring. Above all, we get that the residue field $A/P$ is finite.
+
+(recall that this reflects the theory of $p-adic$ numbers, wherein the residue field $A/P = \mathbb{F}_p$).
+
+$\thm{4.3.4}$ We can completely characterise $\modl_k$ in this case via the uniformizing parameter and the characteristic of the field $\implies$ order of the residue field.
+
+$\pf$
+Therefore, we let $q = [A:P]$. Now, if $\modl_k(p) < 1$, $k$ is ultrametric and all this theory constructed so far applies. In particular, $p \cdot 1_k \in P$ (since its module is $< 1$), so that characteristic of the residue field is $p$ (since $p$ is prime, and $p \cdot 1_k + P = 0 + P)$. But this implies that $q = p^r$ \footnote{see https://math.stackexchange.com/questions/285278/quick-way-to-show-a-finite-field-always-has-prime-power-order}.
+
+Now, $A$ is compact $\implies \mu(A) < \infty$. Also, $\mu(A) = q\mu(P) = q\mu(\pi A)$ since $A = \sqcup_{a \in H}P$ is disjoint union of $q$ translates of $P$, where $H$ is transversal of $A/P$. Therefore, $\modl_k(\pi) = 1/q$. 
+
+We call $q$ the module of $k$, and note that since for all $x \in k^*$, $x = u\pi^{ord_k(x)}$ for $u \in A^*$, we have that $\modl_k(x) = q^{-ord_k(x)}$ (by multiplicativity of $\modl$ + $\modl_k(\pi) = 1/q)$.
+
+$\thm{4.3.5}$ Assume $k$ is LC and $\modl_k(p) < 1$ for prime $p$ (so that $k$ is ultrametric). Then, we have:
+
+\begin{enumerate}
+    \item If $(a_j)$ is s.t. $a_j \ra 0$, then $\sum a_j$ converges.
+    \item Given $(a_j)$ as transversal for $A/P$, consisting of $0$, for $a \in k^*$ of order $n$, $a$ is uniquely expressible as $\sum_{j=n}^{\infty} a_j\pi^j$ where $a_n \ne 0$.
+\end{enumerate}
+
+\textcolor{blue}{Note the strong connection to p-adics: in particular, every $0-$converging sequence yields a convergent sum; and the idea of $p-$adic expansions for every element.}
+
+\subsubsection{Roots of Unity in k}
+$\lm{4.3.6}$ For $a \in A^*$, if we have $a_0 = a; a_n = a^{q^n} - a^{q^{n-1}}$, then $a_n \ra 0$, and hence (previous thm.) $\omega(a) = \lim_n a^{q^n}$ exists.
+
+Note that $\omega$ as defined above is multiplicative. Now, note the following properties of $\omega$:
+
+\begin{enumerate}
+    \item $\omega^{-1}(0) = \{a \in A^*: \omega(a) = \lim_n a^{q^n} = 0 \} = P$. To see $\supset$, note that $\modl(a^n) \ra 0$ for $a \in P$ + cty. of $\modl \implies a^n \ra 0$. To see $\subset$, the same argument as above can be used to show contradiction if $a \notin P$.
+    \item $\omega^{-1}(1) = 1 + P$. 
+\end{enumerate}
+
+Let us consider everything that we have so far. We have $A/P$, wherein the $0-$class is $P$, and it is the $A^*$-elements that belong in the non-zero residue classes. Moreover, since $P$ is $A-$maximal, we have that $A/P$ is a field. Also, since $\chars(k)=p$, we have that $\chars(A/P) = p$ (since $p\cdot 1_k + P = P$ then). These (for some reason) imply that $A/P$ is cyclic.
+
+Over $A$, we have the map $\omega$ as defined above, which is $0$ for elements of $P$ and non-zero otherwise, being $1$ at elements of $1+P$.
+
+Now, we choose $a_1 \in A^*$ such that $[a] \in (A/P)^*$ generates it. Let $\mu_1 = \omega(a_1)$ be its image in $k$.
+
+$\lm{4.3.7} \mu_1$ generates cyclic group of order $q-1$ in $A^*$.
+
+Therefore, let's consider $\omega$-induced injective homomorphism $(A/P)^* \ra A^*$, taking $[a] = [a_1]^n \ra \omega(a_1)^n = \mu_1^n$. The image of this is a cyclic group which turns out to be a subset of $M^* = \{\text{roots of unity with order coprime to }p \}$, since $(\mu_1^n)^{q-1} = (\mu_1^{q-1})^{n} = 1 \implies o(\mu_1^n)|q-1$, but then $q-1 \perp p \implies o(\mu_1^n) \perp p$. We show a stronger result:
+
+$\thm{4.3.8}$ $(A/P)^* \cong M^*$, so that $M = M^* \cup \{0\}$ is transversal for $A/P$. Moreover, for $k$ LC with $\modl_k(p) < 1$, $<M,+>$ is subgroup of $<k,+>$ (and hence, a field) if and only if $\chars(k) > 0$.
+
+This yields the second classification theorem, with the idea as follows:
+\begin{enumerate}
+    \item If $\chars(k) > 0$, then $\modl_k(p) = 0 < 1$, so that above work holds. Then, $\thm{4.3.5} \implies$ k $\cong$ power series in transversal of $A/P$. $M$ is such a transversal.
+    \item By $\thm{4.3.8}$, $M$ is a field whenever the above holds. Therefore, $k \cong M((x))$. $M$ is indeed a finite field, and being a field $\implies M((x)) = M[x]$.
+\end{enumerate}
+
+\vspace{15 cm}
+
+\subsection{Important Ideas from Finite Field Theory}
+Galois extension
+
+$\mathbb{F}_q$ is splitting field for polynomial $x^q - x$ (by Lagrange) $\implies$
+
+Units of finite field, considered multiplicatively, form a cyclic group.
+
+\subsection{Review: Polynomial rings, field extensions}
+Before moving on, we should recall some notions, specifically (i) polynomial rings over a field, the existence of their roots in some field extension, etc.
+
+$\df{4.4.1}$ Given a ring $R$, we have the \textbf{polynomial ring over R}, $R[x] = \{\sum_{j=0}^n a_jx^j: a_j \in R\}$, with the usual addition and multiplication of polynomials. This is an important construction as we seek to generalize the notion of factorizability of polynomials, finding roots, etc.
+
+\textbf{Ex:} Some examples to consider are $\Z[x], \R[x]$.
+
+Recall the nice properties that $\Z$ enjoys:
+
+\begin{enumerate}
+    \item Euclidean division: for every element $n \in \Z$, given $m \in \Z - 0$, there exists a function $d:\Z - 0 \ra \N$ (the absolute value function), such that $m = q \cdot n + r$, where $r = 0$ or $d(r) < d(n)$, for some $q, r \in \Z$.
+    
+    \item Prime factorization: every element in $\Z$ can be expressed as product of so-called 'irreducible' elements, i.e. the primes, of $\Z$.
+    
+    \item Principal ideals: every set that is absorptive under multiplication is generated by a single element.
+
+    \item Integral domain: no two non-zero elements multiply to zero.
+\end{enumerate}
+
+(Also, recall that every field is an integral domain). Turns out, since polynomial rings are, in turn, rings, we can think about when they possess such properties.
+
+Recall, $\mathbb{F} \subset ED \subset PID \subset UFD$.
+
+$\df{4.4.2} (2)$: Given ring $R$, we say $x \in R$ is irreducible if (i) x is not a unit, (ii) $x = ab \implies a$ or $b$ is a unit.
+
+This is motivated by factorization in $\Z$: $2 = 1 \cdot 2 = -1 \cdot -2$. Note the defintion of unique factorization:
+
+$\df{4.4.3}$ A \textbf{unique factorization domain (UFD)} is an integral domain\footnote{A ring is an integral domain iff cancellation law $ab = ac \implies b = c$ holds} R where, for all $x \in R$, $x = u p_1 ... p_n$, where $u$ is unit and $p_i$ are irreducible. 
+Moreover, we have uniqueness in the following sense: if $x = w q_1...q_m$ is another factorization into units + irreducible elements, then $m = n$, and we have a bijection $\{1...m\} \ra {1...n}$ such that $p_i = v_i q_{\sigma(i)}$ for some unit $v_i$. 
+
+\textcolor{red}{There seems more to be said about the intuitiveness of this definition of irreducible elements...}
+
+Therefore, irreducible elements are exactly the terminal elements in a process of factorization.
+
+Now, if we think about the factorizability of polynomials in some $\R[x]$, for ex., then $x^2 - 1 = (x+1)(x-1)$ is factorizable into monomials, and is thus a reducible element. However, consider $x^2+1$ - it is irreducible in $\R[x]$. Now, we somehow wish to adjoin to $\R$ some element such that $x^2 + 1$ is factorizable - equiv., we wish to extend $\R$ in a way such that $x^2 + 1$ splits (i.e. can be expressed as product of monomials). 
+
+$\thm{4.4.4}$ If $f \in F[x]$ is irreducible, then there exists a field extension $K/F$ and $a \in K$ such that $f(a) = 0$.
+
+$\pf$ Let $I=<f>$ be the ideal generated by $f$, and consider $K = F[x]/I$. Then, we have the field homomorphism $\phi:F \ra F[x]$ as inclusion, and so we have established $K$ as an extension field.
+
+To see that $f(\alpha) = 0$ for $\alpha \in K$, let $\alpha = x + I$. Then, note that $f(x) = \sum_{j=0}^n a_jx^j$, so that we can equivalently let $f(\alpha)= f(x+I) = \sum_{j=0}^n (a_j+I)(x^j + I) + ... + (a_0 + I) = \sum_{j=0}^n a_jx^j + I = f + I = 0 + I = 0_K$, as desired.
+
+
+The idea is to adjoin to $F[x]$ some $x$ such that $f(x) = 0$ - this is achieved by considering $F[x]/f(x)$ since this quotient's elements are exactly the functions in $F[x]$ up to difference by some multiple of $f(x)$ (which is justified since $f(x) = 0$ on this $x$). Therefore, $x + I \cong x$ that solves $f(x) = 0$.
+
+$\df{4.4.5}$ In the above spirit, we recall that $a$ is root of a polynomial $f \in L[x]$ if and only if $x - a$ is a factor of $f \in L[x]$. This is due $L[x]$ being a Euclidean domain (i.e. has divisibility rules w/ notion of remainder). Therefore, $L$ contains all roots of $f$ when $f$ factors as 
+
+$$f = a_0(x-\alpha_1)...(x - \alpha_n)$$ for $\alpha_i \in L$ all the roots of $f$. When this happens, we say $f$ \textbf{splits completely over L}.
+
+$\thm{4.4.6}$ For any $f \in F[x]$, there is an extension field $F \subset L$ such that $f$ splits completely over $L$
+
+$\pf$ By induction, using the previous theorem.
+
+Lastly, note that field extensions can also be given by the image of a field morphism. That is, for $F \ra K$ field morphism given by $\phi$, $\phi(F) \subset K$ is a subfield of $K$, and is isomorphic to $F$, hence $F$ can be treated as a subfield of $K$ (this is due to injectivity of all field morphisms).
+
+\subsubsection*{Fundamental Theorem of Algebra}
+
+$\thm{4.4.7}$ Every polynomial in $\C[x]$ splits completely over $\C$.
+
+\subsubsection*{Fields: Extension fields}
+
+A polynomial ring is, in a sense, doing what one does to get a ring. In particular, we take finite sums and products of members as elements of a ring; similarly, polynomial rings are constructed.
+
+For $\alpha \in L/F$ extension field, we can consider adjoining $\alpha$ to $F$. That is, if we consider the smallest \textbf{ring} generated by $F$ and $\alpha$, it must be closed under finite sums and products, i.e. should exactly be $F[\alpha]:=\{f(\alpha): f \in F[x] \}$, i.e. $F-$polynomials evaluated at $\alpha$. To make sense of this, we treat $F[\alpha]$ as living in the extension field $F$, so that operations such as $x\alpha$ make sense for $x \in F$ (we consider $x \cong \phi(x) \in L$, where $\phi:F \ra L$ gives us $F$ embedding in L).
+
+Now, while in a polynomial ring, $F[x]$, the $x$ is a purely formal variable, this is not necessarily the case for adjoined fields as above. In particular, if $\alpha$ is algebraic over $F$ (i.e. for some $F$-polynomial $f$, $f(\alpha)=0$), then this is witnessed in the adjoined field as well. The effects are that polynomials are equivalent up to multiplies of such polynomials (since evaluations at these polynomials results in 0). Therefore, we get the result that $F[\alpha] \cong F[x]/<p>$, where $p$ is the minimal polynomial of $\alpha$.
+
+\subsubsection*{Degree of an Extension}
+Given an extension $L/F$, note that (i) $L$ is abelian group under addition, (ii) $F \subset L$ serve as collection of scalars that $L$-elements can be multiplied with. Hence, can regard $L$ as a vector space over the scalars $F$.
+
+$\df{4.4.8}$ Given extension $L/F$, if $L$ is a finite-dimensional vector space over $F$, then let \textbf{degree of extension} = $dim_{F}L < \infty$. Else, let degree be $\infty$.
+
+For example, given $\C/\R$, $\C$ has basis $\{1,i\}$ as vector space over $\R$, so that $[\C:\R]=2$. Now, how can we compute the dimension in general? Given $L/F$ and $\alpha \in L$, we may compute the degree of the extension field $F(\alpha) \supset F$...
+
+$\thm{4.4.9}$ In the setting described above...
+\begin{enumerate}
+    \item $\alpha$ is algebraic over $F$ if and only if $[F(\alpha):F] < \infty$.
+    \item If $\alpha$ is algebraic over $F$, with minimal polynomial of degree $n$, then $1,\alpha...\alpha^{n-1}$ form basis of $F(\alpha)$ (as v.s. over $F$) - hence, $[F(\alpha):F] = n$.
+\end{enumerate}
+
+Some examples:
+\begin{enumerate}
+    \item Consider $\alpha = \sqrt(2) + \sqrt(3) \in \R$. It is algebraic over $\Q \subset \R$, with minimal polynomial $x^4 - 10x + 1$ of degree $4$. Hence, $1,\sqrt{2} + \sqrt{3}, (\sqrt{2} + \sqrt{3})^2, (\sqrt{2} + \sqrt{3})^3 $ form basis of $\Q(\sqrt{2} + \sqrt{3})$ as v.s. over $\Q$, so its degree is $4$.
+    \item Consider $\alpha = i \in \C$, which is algebraic over $\R$ w/ minimal polynomial $x^2 + 1$. Hence, $\R(i) \cong \C$ has basis $\{1,i\}$ as $\R-$vector space.  
+\end{enumerate}
+
+Indeed, knowing degree of a field extension enables us to explicitly state its elements. The above example enables us to do so for field extensions obtained by adjoining elements.
+
+\textcolor{red}{For algebraic $\alpha$, since $ F(\alpha) = F[\alpha] \cong F[x]/p$, we have from above that $F[x]/p$ can be thought of as a vector space over $F$, and that we can characteristic its dimension as well.}
+
+$\thm{4.4.10 (The Tower Theorem)}$ Given chain of field extensions $F \subset K \subset L$...
+\begin{enumerate}
+    \item If $[K:F]$ or $[L:K] = \infty$, then $[L:F] = \infty$.
+    \item Else, if both are finite, then $[L:F] = [L:K][K:F]$.
+\end{enumerate}
+
+\subsubsection*{Splitting Field, Normal Extensions}
+$\df{4.4.11}$ Given $f \in F[x]$, $L$ is the $\textbf{splitting field}$ of $f$ if:
+\begin{enumerate}
+    \item $f(x) = c(x - a_1)...(x - a_n)$, for $c \in F, a_i \in L$, i.e. $f$ factors completely as monomials in $L[x]$.
+    \item $L = F(a_1...a_n)$, i.e. $L$ is the field generated by $F$ + roots of $f$
+\end{enumerate}
+
+ Splitting fields are nice because they contain all the roots of some given polynomial (and hence, all polynomials that divide those). For example, $\Q(i)$ is the splitting field of $f(x) = x^2 + 1 \in \Q$. However, not all extensions are splitting fields - for example, $\Q(2^{\frac{2}{3}})$ isn't.
+
+ Splitting fields are unique up to isomorphism - for example, $\Q(i)$ and $\Q/(x^2+1)$ are both splitting fields of $x^2+1$, and are also isomorphic.
+
+ Splitting fields are algebraic extensions - in particular, for $\alpha \in L$, if $\alpha \in F$, then $x - \alpha = f$ has $\alpha$ has root; otherwise, if $\alpha \notin L$, then $\alpha$ is root of $f$.
+
+ $\thm{4.4.12}$ For $L/F$ splitting field of some $f \in F[x]$, say $g \in F[x]$ is irreducible. Then, if $g$ has one root in $L$, $g$ splits completely over $F$.
+
+ $\pf$ $g$ is irreducible and (WLOG) monic, so that $g$ is minimal polynomial of $\beta$, which is the root it has in $L$. We show that $g|s$ for some $s \in F[x]$ that (i) splits completely over $L$, (ii) has $\beta$ as its root. This implies that $g$ splits completely over $L$, too.
+
+ The converse of this statement is not true, and leads to the following definition...
+
+ $\df{4.4.13}$ An algebraic extension $L/F$ is \textbf{normal} if every irreducible polynomial in $F[x]$ with one root in $L$ splits completely over $L$ (equiv., if the minimal polynomial (relative to $F$) of every $\alpha \in L$ (exists by algebraicity) splits completely over $L$).
+
+ We have the following theorem, characterizing relation between finite normal extensions and splitting fields.
+
+ $\thm{4.4.14}$ $L/F$ is splitting field of some $f \in F[x]$ if and only if $L$ is normal and finite.
+ 
+ $\pf$ $(\implies)$ Trivial, by $\thm{4.4.12}$ and defn. of splitting field.
+ 
+ $\impliedby$ If $L$ is normal and finite, then (by finiteness of algebraic extension), there exist $(a_i)$ which are algebraic over $F$, s.t. $L = F(a_1...a_n)$. We then consider the corresponding minimal polynomials of $a_i$, $p_i \in F[x]$, and show that $F$ is splitting field of $p_1...p_n$.
+
+ Normal extensions are cool because they say that irreducible polynomial with one root has all roots in extension; splitting fields are cool because they are the field generated by $F$ and the roots of some $F$-polynomial. Both are algebraic extensions. Finite normal extensions are precisely splitting fields (and vice versa), so share the same theory.
+
+ \subsubsection*{Galois Theory}
+
+Galois theory is very useful because it helps convert questions about field theory to questions about group theory. 
+
+$\df{4.4.15}$ Given field extension $K/F$, we define $\Gal(K/F)$ to be the automorphisms of $K$ that fix $F$.
+
+Determining the Galois group is crucial in understanding its structure. The following result helps us considerably in understanding the structure of Galois groups:
+
+$\lm{4.4.16}$ Given $h \in F[x_1...x_n], (\alpha_i) \subset L, \sigma \in \Gal(L/F)$, $h(\sigma(x_1)...\sigma(x_n)) = \sigma(h(\alpha_1...\alpha_n))$. That is, $\sigma^*h = \sigma_* h$.
+
+$\thm{4.4.17}$ If $h \in F[x]$, then $h(\alpha) = 0 \implies h(\sigma(\alpha)) = 0$ for $\sigma \in \Gal(L/F)$. Also, if $L = F(a_1...a_n), \sigma$ is determined by its values on $\alpha_i$.
+
+Therefore, \textbf{for a finite extension $L/F$, $\Gal(L/F)$ is finite group.}
+
+\textbf{Procedure to Compute Galois Group}
+
+1) Consider your field extension $L/F$. Assuming $L$ is finite extension, and that we know its basis, $L = F(\alpha_1...\alpha_n)$ for $\alpha_i \subset L$, we know that these elements are algebraic over $F$. \footnote{Note that all finite extensions are algebraic, but not all algebraic extensions are of the form $F(a_1...a_n)$, i.e. finite - for example, $\C$ is infinite-dimensional algebraic extension of $\Q$.}
+
+2) Moreover, the above theorem tells us that the Galois group is determined on the basis. So, collect the minimal polynomials in $F$ corresponding to $\alpha_i$.
+
+3) Now, Galois automorphisms map roots of polynomials to roots, so must be the case above. Then, try the possible permutations to see which ones yield field isomorphisms, and which don't. This strategy works in the simple cases where $[L:F]$ is small, so that not a lot of options are there to check.
+
+\subsubsection*{Galois Theory of Splitting Fields}
+Recall that one class of finite-dimensional extensions are the splitting fields $L=F(\alpha_1...\alpha_n)$, where $(\alpha_i)$ are the roots in $L$ of some polynomial $f \in F[x_1...x_n]$. Consider the case where the polynomial is seperable, i.e. of degree $n$ and having $n$ distinct roots.
+
+$\thm{4.4.18}$ If $L/F$ is splitting field of seperable polynomial in $F[x]$, then the $|\Gal(L/F)| = [L:F] = \text{\# of roots of/deg. of }f \text{ not in F}$. 
+
+Indeed, note that the Galois group of a polynomial $f \in F$ is defined as the Galois group of its splitting field, so that the above theorem holds for separable polynomials (and separable elements, particularly in an algebraic field).
+
+\subsubsection*{Permutations of the Roots}
+
+\subsection{Extensions of Local Fields}
+
+\textcolor{blue}{Our aim is to study finite extensions of local fields, and the properties of ramification with respect to them. Our result will be that finite extensions of the residue field, characterize unramified finite algebraic extensions of the entire field.}
+
+\textcolor{orange}{Of course, this discussion does not pertain to $\Q$, since it is not a locally compact field \footnote{Read more about this fact.}. Instead, it pertains to $\R$, for example. We will study $\Q$-properties in the section on global fields.}
+
+Our setting is a finite extension $k_1/k$ of fields. Recall that $k_1$ can be thought of as a vector space over $k$, so that it can be endowed with a unique topology (making it isomorphic to $k^n$, where $n = [k_1:k]$). We may also have the $\modl_{k_1}$ function, now.
+
+Now, assume that $\modl_k(p) < 1$ for some prime $p$, i.e. $k$ is ultrametric.
+
+\subsubsection*{Ramification Index and Residual Degree}
+
+$\thm{4.6.1}$ $k_1$ is ultrametric, i.e. $\modl_{k_1}(p) < 1$ in particular. Also, $A_1 \cap k = A$, $P_1 \cap k = P$.
+
+$\thm{4.6.2}$ Say, $k_1/k$ is a finite extension of degree $n$. Consider:
+
+$$q_1 = |A_1/P_1|; q = |A/P|; e = ord_{k_1}(\pi)$$
+
+where $\pi$ is the uniformizing parameter, such that $P = \pi A$. Then, $q_1 = q^f = p^j$ is a power of $p$, and $ef = n$.
+
+That is, $A_1/P_1$ is a field of characteristic $p$ with cardinality $q^f = p^{sf}$, and ramification index, $e$ $\cdot$ residual degree, $f$ = degree of extension, $n$. \textbf{Unramified} if $e = 1$; \textbf{totally unramified} if $f = 1$.
+
+\textcolor{blue}{e tells us how much the module ev. at the uniformizing parameter shrinks under the extension.}
+
+\subsubsection*{Characterizing Unramified Extensions}
+Let $M_1^*$ denote roots of unity in $k_1$ of order prime to $p$. Recall from $Th 4.19$ that $M_1^* \cong (A_1/P_1)^*$.
+
+$\lm{4.6.3}$ Say, $k_1/k$ is finite extension, generated by some element $m \in M$. Then:
+
+\begin{enumerate}
+    \item $k_1 = k(M_1)$, so that $k_1$ is splitting field of the polynomial $x^{q^f-1}-1$ and hence a Galois extension of $k$.
+    
+    $\pf$ (partial) $M_1^* \cong (A_1/P_1)^*$, and the latter is a field $\implies \forall x \in (A_1/P_1)^*, x^{|(A_1/P_1)^*|} = x^{q_1 - 1} = x^{q^f - 1} = 1$, so the same is true for $M_1^*$ (that it consists precisely of the roots of this polynomial, since it is isomorphic to a field that does).
+
+    \item $\Gal(k_1/k) \cong \Gal(\overline{k_1}/\overline{k})$.
+
+    \item $k_1$ is cyclic and unramified over $k$ (i.e. $e = 1$).
+\end{enumerate}
+
+$\thm{4.6.4}$ 
+Given the same setting as above...
+\begin{enumerate} 
+    \item $k_1$ unramified over $k$ (i.e., $e = 1$)IF AND ONLY IF $k_1 = k(M_1)$ (i.e. $k_1$ consists of all roots of $x^{q_1 - 1} - 1$).
+    \item For all positive $f$, $k$ has exactly one unramified $(e=1)$ extension of degree f. Also, this extension is generated over $k$ by any primitive $q^f-1$ root of unity.
+    
+    $\pf$ (2nd part) By (1) of this theorem, $k_1 $ unramified $\implies k_1 = k(M_1)$. Since $k_1$ is degree $f$, i.e. $q_1 = q^f$, we have by $\lm{4.6.3}$ reasoning that $M_1$ must consist of all roots of $x^{q^f}-1$. But lastly, note that (by above lemma)), if $k_1$ is generated by any of such a root (primitive $q^f-1$ root of unity), it automatically contains all of them $(M_1)$. This yields our claim.
+\end{enumerate}
+
+$\cor{4.6.5}$ Given $k_1/k$ as above, let $\mathcal{A} := [\text{unramified finite algebraic extensions of }k]_{\cong}$, $\mathcal{\bar{A} := [\text{finite extensions of }} \bar{k}]_{\cong}$. 
+
+\begin{enumerate}
+    \item $\begin{cases}
+        A \ra \bar{A} \\
+        k \ra \bar{k}
+    \end{cases}$ is a bijection.
+
+    $\pf$ A finite field is determined (up to isomorphism) by its order. Therefore, $\bar{k_1} \ne \bar{k_2} \iff |\bar{k_1}| \ne |\bar{k_2}|$. Also, note that $\bar{k_1}* \cong M_1^* = \{ \text{roots of unity in } k_1 \text{ w/ order coprime to p}\}$, if $\bar{k_1} = \phi(k_1)$.
+
+    Therefore, $k_1$ unramified w/ degree $f \implies k_1 = k(M_1)$, for $M_1$ such that $M_1^* \cong \bar{k}_1^*$. That is, knowing $M_1$ yields the corr. residue field. This gives injectivity, since $\bar{k}_1 = \bar{k}_1' \implies M_1 = M_1' \implies k_1 = k(M_1) = k(M_1') = k_1'$.
+
+    To get surjectivity, note that given finite extension of $\bar{k}, \bar{k_1}$, we will have that $\bar{k_1}^*$ corresponds to some collection of roots of unity by previous theorem, $M_1^*$, and so $k_1 = k(M_1)$ is the desired extension of $k$.
+    
+    \item Given finite extension $k_1/k$, there exists an unramified ($e = 1$) subextension $l/k$ such that $k_1/l$ is totally unramified (i.e. $f = 1$).
+
+    $\pf$ Simply let $l = k(M_1)$.
+\end{enumerate}
+
+$\df{4.6.6 (Frobenius automorphism)}$ 
+Say, $k_1/k$ is unramified extension corr. (by above theorem) to the residue extension $\bar{k}_1/\bar{k}$, with $\bar{k}=\mathbb{F}_q$, the field w/ $q$ elements.
+
+Then, we may consider the automorphism $\sigma_q \in \Gal(k_1/k), $ such that $\sigma_q(x) = x^q$. Of course, for $x \in k$, $x^q = x$ \textcolor{red}{why? related to order of $\bar{k}$}. By above lemma, we may consider the corresponding automorphism $\overline{sigma}_q \in \Gal(\bar{k}_1/\bar{k})$, calling it \textbf{Frobenius automorphism}.
+
+\subsection{Places and Completions of Global Fields}
+
+$\df{4.7.1}$ A valuation is a function $|\cdot|:F \ra \R_{\geq 0}$, such that:
+\begin{enumerate}
+    \item $|a| = 0 \iff a =0$.
+    \item $|ab| = |a||b|$
+    \item $|a+b| \leq C\max{|a|,|b|}$ for $C \geq 0$. 
+\end{enumerate}
+
+The trivial valuation assigns $1$ to every non-zero element. If it satisfies $(iii)$ w/ $C=1$, it is called \textbf{ultrametric}. We have a theorem that it satisfies $(iii)$ for $C \leq 2 \iff$ it satisfies triangle inequality.
+
+$\df{4.7.2}$ Two valuations are \textbf{equivalent} if $|\cdot|_1 = |\cdot|_{2}^t$ for $t > 0$, i.e. one is power of another. Equivalence class of valuations are called \textbf{places}. This says that two valuations are equivalent iff there exsits $t > 0$ such that $\log_{|x|_1}|x|_2=t$ for all $x$.
+
+Valuations $\implies$ metric $\implies$ topology. Equivalent valuations induce equivalent topologies. We also care about completeness of a valuation field.
+
+$\thm{4.7.3 (Ostrowski's theorem)}$ Say, $K$ is a prime global field (that is, $\Q$ or $\mathbb{F}_q(t)$). Then, we know the places of $K$:
+
+\begin{enumerate}
+    \item if $K=\Q$, then every non-trivial place of $K$ is represented by $|\cdot|_p$ for some prime $p$, or the usual absolute value $|\cdot|_{\infty}$ at "infinity".
+    \item if $K=\mathbb{F}_q(t)$, then every nontrivial place is represented by the "finite" place corresponding to an irreducible polynomial $f \in \mathbb{F}_q[t]$, or the "infinite" place given, for $f,g \in \mathbb{F}_q[t], g \ne 0$, by $|f/g|_{\infty} = q^{deg(f) - deg(g)}$.
+\end{enumerate}
+
+When we say finite places are "represented" by some irreducible element, what we mean is that the "smallest" element such that $|\cdot|_p < 1$ corresponds to that element, precisely. For example, this is the case with the p-adic valuation on $\Q$, where $|a|_p = p^{-v_p(a)}$.
+
+Also, note that for $Q$, the finite places are ultrametric, whereas the infinite place is Archimedean.
+
+\subsection{Extension of Absolute Values (Over Global Fields)}
+Suppose that $K$ is a global field. That is, it is a finite extension of $\mathbb{Q}$ or of $\mathbb{F}_q(t)$, where $q = p^n$ for prime $p$\footnote{Properties: every completion of either is a LC field.}. Let $F$ denote a special subfield of $K$ of the form $\mathbb{F}_q(t)$ if $\chars(K)>0$ (for a global field, equiv. whenever finite extension of $\mathbb{F}_q(t)$, and $\Q$ if $\chars(K) = 0$ (for global field, equiv. whenever finite extension of $\Q$).
+
+\textcolor{blue}{Our aim here is to study such global fields and their places, in terms of the original field from which they are extended.}
+
+The intuition is as follows:
+
+$\df{4.8.0}$
+(A1) Depending on the structure of $K$, it contains $F = \Q$ or $\mathbb{F}_q(t)$. Thus, given a place $\nu$ over $K$, its restriction yields a place $\mu = res_F(\nu)$ over $F$. Indeed, we thus get the map:
+
+$$res_F: \begin{cases}
+    \mathcal{P_K} \ra \mathcal{P_F} \\
+    \nu \mapsto res_F(\nu)
+\end{cases}$$
+
+(A2) We know the places over $F$ from Ostrowski's theorem. Therefore, adopting the convention that $\nu | \mu$, or $\nu$ \textbf{lies over} $\mu$ if $\mu = res_F(\nu)$, we can consider the image of and fibers over $res_F$.
+
+$\lm{4.8.1}$ We may assume WLOG that $K/F$ is finite and seperable.
+
+Let $n = [K:F]$ be the degree of $K$ as an extension of $F$; $K_{\nu}$ and $F_{u}$ denote the completion of $K$ and $F$ wrt. absolute values defined on them, $\nu$ and $\mu$, respectively.
+
+\textcolor{blue}{Our first result: finite, separable global extension $\implies$ finite, separable local (i.e., of completion) extension.}
+
+$\thm{4-31}$ Let $K=F(\alpha)$ be finite, separable global extension of $F$, and let $\mu$ be a place of $F$. If $p(x) \in F[x]$ is the minimal polynomial of $\alpha$ over $F$, s.t. $p(x)$ factors in $F_{\mu}$ into product $p_j(x) \in F_{\mu}$ with roots $\alpha_j$, then:
+
+\begin{enumerate}
+    \item If $\nu | \mu$, then $K_{\nu} = F_{\mu}(\beta)$, where $\beta$ is a root of $p(x)$ (and hence, separable over $F_{\mu}$). That is, the completion $F_{\mu} \subset K_{\nu}$ is finite, separable local extension.
+    \item $\{\nu \in \mathcal{P}_K : \nu | \mu\} \cong \{ \phi_j: K \hookrightarrow \bar{F}_{\mu}, \phi_j(\alpha) = \alpha_j\}$
+\end{enumerate}
+
+$\pf$ 
+(i) Given a global field $K = F(\alpha)$ as a finite seperable extension of $F$, where $F = \mathbb{Q} $ or $\mathbb{F}_q(t)$, suppose that $u$ is a fixed place of $F$, and that $v$ is an extension of $u$ over $K$. Let $p$ be the minimal polynomial of $\alpha$ over $F$.
+
+Now, $F_u(\beta) \cong F_u(\alpha) \hookrightarrow K_v$, proving one side of the inclusion. For the other side, I want to say that $F_u(\beta)$ is already $"v"$-complete, so that (i) it contains $F$, (ii) it contains $\beta = im(\alpha)$, (iii) it is complete with respect to $v \implies$ it exactly contains $(F(\alpha))_v = K_v$. 
+
+Now, in doing this, I am able to note that (i) $F_u$ is $u$-complete, and since $u = v|_F$, $F_u$ is $v$-complete. \textcolor{red}{Now, I'm not sure how this shows that $F_u(\beta)$ is $v-complete$.}
+
+(ii) Given an assignment $\alpha \mapsto \alpha_j$, we can come up with a place on $F_\mu(\alpha_j)$ which lies over $\mu$, establishing $\supset$. Contrarily, given a place $\nu|\mu$, (i) $\implies$ \textcolor{red}{?}.
+
+Thereafter, the assignment $\alpha \ra \alpha_j$ give rise to distinct places can be shown.
+
+This yields the following corollary, \textcolor{blue}{For fixed place $\mu$ of $F$, sum of (degree of local extensions) = degree of global extension. Also, if $K/F$ is Galois extension, then degree of local extension is constant.}
+
+$\cor{4.8.3}$ Let $K/F$ be global extension, $n = [K:F]$ and $\mu$ some fixed place of $F$:
+
+\begin{enumerate}
+    \item If $\nu | \mu$, let $n_{\nu} = [K_v:F_\mu]$. Then, $n = \sum_{\nu | \mu}n_{\nu}$.
+    
+    This implies both that (i) for each $\mu$, there exists some $\nu$ such that $\nu | \mu$ (since sum needs to add up to $n$), i.e. restriction map is surjective, and (ii) fiber over each place of $F$ is finite \textcolor{red}{How is $n_{\nu}$, the degree of the local extension, related to this (the set of $\nu$ s.t. $\nu|\mu$)? Maybe by Th. 4-31?} 
+    \item If $K/F$ is Galois extension, then $n_{\nu}$ is constant for all $\nu | \mu$.
+\end{enumerate}
+
+$\pf$ (i) Note that $K = F(\alpha)$, so that $n = $ degree of $p(x)$. Contrarily, embeddings $ \alpha \mapsto \alpha_j$ of $K \hookrightarrow \bar{F}_{\mu}$ correspond to $\nu_j$ such that $\nu_j | \mu$; \textcolor{red}{for this, we have $K_{\nu_j} = F_{\mu}(\alpha_j)$, which is extension of degree $=$ degree of $p_j(x)$.}
+
+(ii) \textcolor{red}{I think this would be true if we had an embedding such that $\alpha_j \mapsto \alpha_k$, and vice versa.}
+
+\subsubsection*{The Ring of Integers of a Global Field}
+
+(A1) Distinguish between finite and infinite places of a global field.
+
+(A2) For a global field $K$, define $D_K$, the \textbf{integers of $K$}, as $D_K := \bigcap_{\nu \text{ finite}} \{x \in K:|x|_{\nu} \leq 1 \}$. In particular, it is intersection of local rings at all places of $K$, and so it is a ring.
+
+(A3) Then, we have the following proposition:
+$\thm{4-35}$ $D_K$ for global field $K$ has the following properties:
+\begin{enumerate}
+    \item $D_K$ is a Noetherian domain that is integrally closed in its field of fractions. Also, every prime ideal of $D_K$ is maximal (so that they cannot contain one another).
+    \item $D_K$ is the integral closure of $\mathbb{Z}$ in $K$ if $K$ has characteristic $0$, and of $\mathbb{F}_q[t]$ in $K$ if $K$ has positive characteristic.
+\end{enumerate}
+
+To understand this, note that:
+\begin{enumerate}
+    \item Given commutative ring $k$ and field $L \supset k$, $x \in L$ is \textbf{integral} over $k$ if it is root of monic polynomial in $k[x]$.
+    \item A commutative ring $K \supset k$ is \textbf{integral} (as a ring) over $k$ if $\forall x \in K$, $x$ is integral in $k$.
+    \item The set of all elements of $L$ integral over $k$ is a subring of $L$, called the \textbf{integral closure} of $k$ in $L$.
+    \item An integral domain $k$ is \textbf{integrally} closed if it is integrally closed in the quotient field of $k$. \footnote{Consider https://math.stackexchange.com/questions/2699083/mathbb-z-is-integrally-closed-in-mathbb-q}
+\end{enumerate}
+
+\section{Notes}
+
+1. Isomorphism vs. equality
+
+Statements such as $F(a) \subset F(b)$ can be taken both as (i) as a set, elements of $F(a)$ belong in $F(b)$, or as the weaker claim (ii) there is an injection $F(a) \hookrightarrow F(b)$.
+
+Also, consider this example: $\Q(-\sqrt{2}) \cong \Q(\sqrt{2})$ as fields, but if we consider the embedding of these in $\R$, then they both are opposingly ordered. Therefore, when we talk about an isomorphism, we are talking about it with respect to certain properties: so, not all $(A)$-preserving isomorphisms are necessarily $(B)$-preserving isomorphisms. For example, not all automorphisms are continuous.
+
+2. 
+
+\end{document}
